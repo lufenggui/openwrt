@@ -643,10 +643,11 @@ $ht_capab
 
 config wifi-iface
 	option device   radio$devidx
-	option network  lan
-	option mode     ap
-	option ssid     OpenWrt
-	option encryption none
+	option network  wan
+	option mode     sta
+	option ssid     ssid
+	option encryption psk2
+	option key password
 
 EOF
 	devidx=$(($devidx + 1))
