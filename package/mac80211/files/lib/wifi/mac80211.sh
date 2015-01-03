@@ -645,9 +645,9 @@ config wifi-iface
 	option device   radio$devidx
 	option network  wan
 	option mode     sta
-	option ssid     enoch
+	option ssid     ssid
 	option encryption psk2
-	option key gracehu810715
+	option key password
 
 EOF
 	devidx=$(($devidx + 1))
