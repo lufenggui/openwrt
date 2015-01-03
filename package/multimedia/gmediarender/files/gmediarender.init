@@ -1,0 +1,44 @@
+#!/bin/sh /etc/rc.common
+
+START=90
+STOP=10
+
+USE_PROCD=1
+PROG=/usr/bin/gmediarender
+
+start_instance()
+{
+   config_get_bool enabled "$1" 'enabled' 0
+   [ $enabled -eq 0 ] && return
+
+   config_get name "$1" 'name' 'OpenWrtRender'
+   config_get mixer "$1" 'mixer'
+   config_get mixervolume "$1" 'mixervolume'
+   config_get rendervolume "$1" 'rendervolume' '-10'
+   config_get alsadevice "$1" 'alsadevice'
+   uuid=`ip link show | awk '/ether/ {print "salt:)-" $2}' | head -1 | md5sum | awk '{print $1}'`
+
+   [ -n "$mixer" -a -n "$mixervolume" -a -x "/usr/bin/amixer" ] &&
+       /usr/bin/amixer set "$mixer" "$mixervolume" >/dev/null 2>&1
+
+   if [ -n "$alsadevice" ]; then
+       sinkparam="--gstout-audiosink=alsasink"
+       deviceparam="--gstout-audiodevice=$alsadevice"
+   fi
+
+   procd_open_instance
+   procd_set_param command "$PROG" -f "$name" -u "$uuid" --gstout-initial-volume-db=$rendervolume $sinkparam $deviceparam
+   procd_close_instance
+}
+
+start_service()
+{
+   config_load 'gmediarender'
+   config_foreach start_instance 'gmediarender'
+}
+
+service_triggers()
+{
+   procd_add_reload_trigger 'gmediarender'
+}
+

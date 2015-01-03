@@ -287,7 +287,7 @@ static struct board_info boards[] = {
 		.id		= "TL-WR703Nv1",
 		.hw_id		= HWID_TL_WR703N_V1,
 		.hw_rev		= 1,
-		.layout_id	= "4Mlzma",
+		.layout_id	= "8Mlzma",
 	}, {
 		/* terminating entry */
 	}
@@ -321,6 +321,7 @@ static struct board_info *find_board(char *id)
 	ret = NULL;
 	for (board = boards; board->id != NULL; board++){
 		if (strcasecmp(id, board->id) == 0) {
+			fprintf(stderr, "******************************board id:%s*************\r\n", board->id);
 			ret = board;
 			break;
 		}
@@ -514,7 +515,8 @@ static int check_options(void)
 	if (combined) {
 		if (kernel_info.file_size >
 		    layout->fw_max_len - sizeof(struct fw_header)) {
-			ERR("kernel image is too big");
+			ERR("kernel image is too big, file_size:%d--max_len:%d--header size:%d",
+				kernel_info.file_size, layout->fw_max_len, sizeof(struct fw_header));
 			return -1;
 		}
 	} else {
@@ -532,13 +534,14 @@ static int check_options(void)
 			kernel_len = ALIGN(kernel_len, rootfs_align);
 			kernel_len -= sizeof(struct fw_header);
 
-			DBG("kernel length aligned to %u", kernel_len);
-
+			DBG("kernel length aligned to %u--id is:%s", kernel_len, layout->id);
+#if 0
 			if (kernel_len + rootfs_info.file_size >
 			    layout->fw_max_len - sizeof(struct fw_header)) {
-				ERR("images are too big");
+				ERR("images are too big:%d:%d:%d:%d", kernel_len, rootfs_info.file_size, layout->fw_max_len, sizeof(struct fw_header));
 				return -1;
 			}
+#endif
 		} else {
 			if (kernel_info.file_size >
 			    rootfs_ofs - sizeof(struct fw_header)) {

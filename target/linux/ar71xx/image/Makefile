@@ -213,11 +213,11 @@ define Image/Build/DIR825B1
 			dd if=$(call sysupname,$(1),$(2)); \
 			echo -n "$(4)"; \
 		) > $(call imgname,$(1),$(2))-backup-loader.bin; \
-		if [ `stat -c%s $(call sysupname,$(1),$(2))` -gt 4194304 ]; then \
+		if [ `stat -c%s $(call sysupname,$(1),$(2))` -gt 8388608 ]; then \
 			echo "Warning: $(call sysupname,$(1),$(2)) is too big"; \
 		else \
 			( \
-				dd if=$(call sysupname,$(1),$(2)) bs=4096k conv=sync; \
+				dd if=$(call sysupname,$(1),$(2)) bs=8192k conv=sync; \
 				echo -n "$(5)"; \
 			) > $(call factoryname,$(1),$(2)); \
 		fi; \
@@ -241,11 +241,11 @@ define Image/Build/DLRTDEV
 			dd if=$(call sysupname,$(1),$(2)); \
 			echo -n "$(4)"; \
 		) > $(call imgname,$(1),$(2))-backup-loader.bin; \
-		if [ `stat -c%s $(call sysupname,$(1),$(2))` -gt 4194304 ]; then \
+		if [ `stat -c%s $(call sysupname,$(1),$(2))` -gt 8388608 ]; then \
 			echo "Warning: $(call sysupname,$(1),$(2)) is too big"; \
 		else \
 			( \
-				dd if=$(call sysupname,$(1),$(2)) bs=4096k conv=sync; \
+				dd if=$(call sysupname,$(1),$(2)) bs=8192k conv=sync; \
 				echo -n "$(5)"; \
 			) > $(call factoryname,$(1),$(2)); \
 		fi; \
@@ -875,7 +875,7 @@ $(eval $(call SingleProfile,TPLINK,$(fs_64kraw),TLWR1043,tl-wr1043nd-v1,TL-WR104
 $(eval $(call SingleProfile,TPLINK-LZMA,$(fs_64kraw),TLMR11U,tl-mr11u-v1,TL-MR11U,ttyATH0,115200,0x00110101,1,4Mlzma))
 $(eval $(call SingleProfile,TPLINK-LZMA,$(fs_64kraw),TLMR3020,tl-mr3020-v1,TL-MR3020,ttyATH0,115200,0x30200001,1,4Mlzma))
 $(eval $(call SingleProfile,TPLINK-LZMA,$(fs_64kraw),TLMR3040,tl-mr3040-v1,TL-MR3040,ttyATH0,115200,0x30400001,1,4Mlzma))
-$(eval $(call SingleProfile,TPLINK-LZMA,$(fs_64kraw),TLWR703,tl-wr703n-v1,TL-WR703N,ttyATH0,115200,0x07030101,1,4Mlzma))
+$(eval $(call SingleProfile,TPLINK-LZMA,$(fs_64kraw),TLWR703,tl-wr703n-v1,TL-WR703N,ttyATH0,115200,0x07030101,1,8Mlzma))
 $(eval $(call SingleProfile,TPLINK-LZMA,$(fs_64kraw),TLWR740NV4,tl-wr740n-v4,TL-WR741ND-v4,ttyATH0,115200,0x07400004,1,4Mlzma))
 $(eval $(call SingleProfile,TPLINK-LZMA,$(fs_64kraw),TLWR741NV4,tl-wr741nd-v4,TL-WR741ND-v4,ttyATH0,115200,0x07410004,1,4Mlzma))
 $(eval $(call SingleProfile,TPLINK-LZMA,$(fs_64kraw),TLWR841NV8,tl-wr841n-v8,TL-WR841N-v8,ttyS0,115200,0x08410008,1,4Mlzma))

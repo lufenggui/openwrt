@@ -1,0 +1,15 @@
+case "$ACTION" in
+   add)
+       if [ -c "/dev/audio" ] &&
+           !(pgrep -f gmediarender >/dev/null 2>&1) &&
+           [ -x "/usr/bin/gmediarender" ]; then
+           /etc/init.d/gmediarender start
+       fi
+       ;;
+   remove)
+       if [ ! -c "/dev/audio" ] &&
+           (pgrep -f gmediarender >/dev/null 2>&1); then
+           /etc/init.d/gmediarender stop
+       fi
+       ;;
+esac
