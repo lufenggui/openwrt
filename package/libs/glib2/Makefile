@@ -41,15 +41,14 @@ define Package/glib2/description
 endef
 
 HOST_CONFIGURE_ARGS += \
-	--disable-selinux
+	--disable-selinux 
 
 CONFIGURE_ARGS += \
 	--enable-shared \
 	--enable-static \
 	--enable-debug=no \
 	--disable-selinux \
-	--disable-fam \
-	--with-libiconv=no
+	--disable-fam 
 
 #$(if $(ICONV_FULL),--with-libiconv=gnu)
 

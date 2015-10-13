@@ -30,6 +30,7 @@ endef
 define Package/libiconv-full
   $(call Package/libiconv-full/Default)
   SECTION:=libs
+  DEPENDS:=+libgnutls
   CATEGORY:=Libraries
   TITLE+= library
 endef
@@ -65,12 +66,12 @@ define Build/Compile
 endef
 
 define Build/InstallDev
-	$(INSTALL_DIR) $(1)/usr/lib/libiconv-full/include
-	$(CP) $(PKG_INSTALL_DIR)/usr/include/iconv.h $(1)/usr/lib/libiconv-full/include/
+	$(INSTALL_DIR) $(1)/usr/include
+	$(CP) $(PKG_INSTALL_DIR)/usr/include/iconv.h $(1)/usr/include/
 
-	$(INSTALL_DIR) $(1)/usr/lib/libiconv-full/lib
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libcharset.{a,so*} $(1)/usr/lib/libiconv-full/lib/
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libiconv.{a,so*} $(1)/usr/lib/libiconv-full/lib/
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libcharset.{a,so*} $(1)/usr/lib/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libiconv.{a,so*} $(1)/usr/lib/
 endef
 
 define Package/libcharset/install
